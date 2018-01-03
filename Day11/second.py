@@ -9,22 +9,15 @@ def findWayBack(x,y):
             return cur + math.fabs(x - y)
         if (y == 0):
             return cur + (math.fabs(x - y) * 2)
-        if (x > 0 and y > 0):
+        if (x > 0):
             x -= 0.5
-            y -= 0.5
-            cur += 1
-        elif (x > 0 and y < 0):
-            x -= 0.5
-            y += 0.5
-            cur += 1
-        elif (x < 0 and y > 0):
+        else:
             x += 0.5
+        if (y > 0):
             y -= 0.5
-            cur += 1
-        elif (x < 0 and y < 0):
-            x += 0.5
+        else:
             y += 0.5
-            cur += 1
+        cur += 1
     return cur
 
 steps = []
@@ -35,6 +28,8 @@ with open('input.txt') as f:
 
 x = 0
 y = 0
+topX = 0
+topY = 0
 furthest = 0
 
 for s in steps:
@@ -55,12 +50,15 @@ for s in steps:
         y += 0.5
         x -= 0.5
 
-    distance = findWayBack(x,y)
-    if (distance > furthest):
-        furthest = distance
+    if (math.fabs(x) > topX or math.fabs(y) > topY):
+        topX = math.fabs(x)
+        topY = math.fabs(y)
+        distance = findWayBack(x,y)
+        if (distance > furthest):
+            furthest = distance
 
 print "x: " + repr(x)
 print "y: " + repr(y)
 
-print int(furthest)
-
+print "Final: " + repr(int(findWayBack(x,y)))
+print "Furthest: " + repr(int(furthest))
